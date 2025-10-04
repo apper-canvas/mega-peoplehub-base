@@ -37,23 +37,23 @@ const Directory = () => {
   }, []);
 
   useEffect(() => {
-    let filtered = employees;
+let filtered = employees;
 
     if (selectedDepartment !== "All") {
-      filtered = filtered.filter(emp => emp.department === selectedDepartment);
+      filtered = filtered.filter(emp => emp.department_c === selectedDepartment);
     }
 
     if (searchTerm) {
       filtered = filtered.filter(emp =>
-        emp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        emp.role.toLowerCase().includes(searchTerm.toLowerCase())
+        emp.name_c.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        emp.role_c.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
     setFilteredEmployees(filtered);
   }, [searchTerm, selectedDepartment, employees]);
 
-  const departments = ["All", ...new Set(employees.map(emp => emp.department))];
+const departments = ["All", ...new Set(employees.map(emp => emp.department_c))];
 
   if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadData} />;
@@ -128,7 +128,7 @@ const Directory = () => {
           {viewMode === "grid" ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredEmployees.map((employee, index) => (
-                <motion.div
+<motion.div
                   key={employee.Id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -137,23 +137,23 @@ const Directory = () => {
                   <Card className="p-6 h-full hover:shadow-lg transition-all duration-200">
                     <div className="flex flex-col items-center text-center">
                       <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white text-xl font-bold mb-4">
-                        {employee.name.split(" ").map(n => n[0]).join("")}
+                        {employee.name_c.split(" ").map(n => n[0]).join("")}
                       </div>
                       <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                        {employee.name}
+                        {employee.name_c}
                       </h3>
-                      <p className="text-sm text-secondary mb-2">{employee.role}</p>
+                      <p className="text-sm text-secondary mb-2">{employee.role_c}</p>
                       <span className="inline-block px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full mb-4">
-                        {employee.department}
+                        {employee.department_c}
                       </span>
                       <div className="w-full space-y-2 text-sm text-secondary">
                         <div className="flex items-center justify-center space-x-2">
                           <ApperIcon name="Mail" className="w-4 h-4" />
-                          <span className="truncate">{employee.email}</span>
+                          <span className="truncate">{employee.email_c}</span>
                         </div>
                         <div className="flex items-center justify-center space-x-2">
                           <ApperIcon name="Phone" className="w-4 h-4" />
-                          <span>{employee.phone}</span>
+                          <span>{employee.phone_c}</span>
                         </div>
                       </div>
                       <div className="flex space-x-2 mt-4 w-full">
@@ -176,7 +176,7 @@ const Directory = () => {
               <div className="space-y-4">
                 {filteredEmployees.map((employee, index) => (
                   <motion.div
-                    key={employee.Id}
+key={employee.Id}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.05 }}
@@ -184,25 +184,25 @@ const Directory = () => {
                   >
                     <div className="flex items-center space-x-4 flex-1 min-w-0">
                       <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white font-bold">
-                        {employee.name.split(" ").map(n => n[0]).join("")}
+                        {employee.name_c.split(" ").map(n => n[0]).join("")}
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                          {employee.name}
+                          {employee.name_c}
                         </h3>
-                        <p className="text-sm text-secondary mb-1">{employee.role}</p>
+                        <p className="text-sm text-secondary mb-1">{employee.role_c}</p>
                         <div className="flex items-center space-x-4 text-sm text-secondary">
                           <div className="flex items-center space-x-1">
                             <ApperIcon name="Briefcase" className="w-4 h-4" />
-                            <span>{employee.department}</span>
+                            <span>{employee.department_c}</span>
                           </div>
                           <div className="flex items-center space-x-1 truncate">
                             <ApperIcon name="Mail" className="w-4 h-4" />
-                            <span className="truncate">{employee.email}</span>
+                            <span className="truncate">{employee.email_c}</span>
                           </div>
                           <div className="flex items-center space-x-1">
                             <ApperIcon name="Phone" className="w-4 h-4" />
-                            <span>{employee.phone}</span>
+                            <span>{employee.phone_c}</span>
                           </div>
                         </div>
                       </div>

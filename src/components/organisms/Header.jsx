@@ -52,7 +52,7 @@ const Header = () => {
           </nav>
 
           {/* Desktop Profile */}
-          <div className="hidden lg:block relative">
+<div className="hidden lg:block relative">
             <button
               onClick={() => setIsProfileOpen(!isProfileOpen)}
               className="flex items-center space-x-3 px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors duration-200"
@@ -90,7 +90,18 @@ const Header = () => {
                     <span>Settings</span>
                   </Link>
                   <hr className="my-1" />
-                  <button className="flex items-center space-x-2 px-4 py-2 text-sm text-error hover:bg-gray-100 w-full text-left">
+                  <button 
+                    onClick={async () => {
+                      try {
+                        const { ApperUI } = window.ApperSDK;
+                        await ApperUI.logout();
+                        window.location.href = "/login";
+                      } catch (error) {
+                        console.error("Logout failed:", error);
+                      }
+                    }}
+                    className="flex items-center space-x-2 px-4 py-2 text-sm text-error hover:bg-gray-100 w-full text-left"
+                  >
                     <ApperIcon name="LogOut" className="w-4 h-4" />
                     <span>Sign Out</span>
                   </button>

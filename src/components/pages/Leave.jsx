@@ -13,19 +13,19 @@ import Empty from "@/components/ui/Empty";
 import leaveService from "@/services/api/leaveService";
 
 const Leave = () => {
-  const [leaveRequests, setLeaveRequests] = useState([]);
+const [leaveRequests, setLeaveRequests] = useState([]);
   const [leaveBalance, setLeaveBalance] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
-    leaveType: "Annual",
-    startDate: "",
-    endDate: "",
-    reason: ""
+    leave_type_c: "Annual",
+    start_date_c: "",
+    end_date_c: "",
+    reason_c: ""
   });
 
-  const loadData = async () => {
+const loadData = async () => {
     try {
       setError("");
       setLoading(true);
@@ -35,7 +35,7 @@ const Leave = () => {
         leaveService.getBalance("1")
       ]);
 
-      setLeaveRequests(requests.sort((a, b) => new Date(b.submittedDate) - new Date(a.submittedDate)));
+      setLeaveRequests(requests.sort((a, b) => new Date(b.submitted_date_c) - new Date(a.submitted_date_c)));
       setLeaveBalance(balance);
     } catch (err) {
       setError(err.message);
@@ -63,13 +63,14 @@ const Leave = () => {
       return;
     }
 
-    try {
+try {
       const newLeave = await leaveService.create({
-        employeeId: "1",
+        employee_id_c: "1",
         ...formData,
-        days
+        days_c: days,
+        status_c: "Pending",
+        submitted_date_c: new Date().toISOString().split("T")[0]
       });
-
       setLeaveRequests([newLeave, ...leaveRequests]);
       setShowForm(false);
       setFormData({
@@ -128,7 +129,7 @@ const Leave = () => {
       </div>
 
       {/* Leave Balance */}
-      {leaveBalance && (
+{leaveBalance && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -143,20 +144,20 @@ const Leave = () => {
             <div className="space-y-2">
               <div className="flex items-baseline space-x-2">
                 <span className="text-3xl font-bold text-gray-900">
-                  {leaveBalance.annual - leaveBalance.used.annual}
+                  {leaveBalance.annual_c - leaveBalance.used_annual_c}
                 </span>
-                <span className="text-sm text-secondary">/ {leaveBalance.annual} days</span>
+                <span className="text-sm text-secondary">/ {leaveBalance.annual_c} days</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div
                   className="bg-primary h-2 rounded-full"
-                  style={{ width: `${((leaveBalance.annual - leaveBalance.used.annual) / leaveBalance.annual) * 100}%` }}
+                  style={{ width: `${((leaveBalance.annual_c - leaveBalance.used_annual_c) / leaveBalance.annual_c) * 100}%` }}
                 />
               </div>
             </div>
           </Card>
 
-          <Card className="p-6 border-l-4 border-l-success">
+<Card className="p-6 border-l-4 border-l-success">
             <div className="flex items-center justify-between mb-4">
               <span className="text-sm font-medium text-secondary">Sick Leave</span>
               <ApperIcon name="Heart" className="w-5 h-5 text-success" />
@@ -164,20 +165,20 @@ const Leave = () => {
             <div className="space-y-2">
               <div className="flex items-baseline space-x-2">
                 <span className="text-3xl font-bold text-gray-900">
-                  {leaveBalance.sick - leaveBalance.used.sick}
+                  {leaveBalance.sick_c - leaveBalance.used_sick_c}
                 </span>
-                <span className="text-sm text-secondary">/ {leaveBalance.sick} days</span>
+                <span className="text-sm text-secondary">/ {leaveBalance.sick_c} days</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div
                   className="bg-success h-2 rounded-full"
-                  style={{ width: `${((leaveBalance.sick - leaveBalance.used.sick) / leaveBalance.sick) * 100}%` }}
+                  style={{ width: `${((leaveBalance.sick_c - leaveBalance.used_sick_c) / leaveBalance.sick_c) * 100}%` }}
                 />
               </div>
             </div>
           </Card>
 
-          <Card className="p-6 border-l-4 border-l-info">
+<Card className="p-6 border-l-4 border-l-info">
             <div className="flex items-center justify-between mb-4">
               <span className="text-sm font-medium text-secondary">Casual Leave</span>
               <ApperIcon name="Coffee" className="w-5 h-5 text-info" />
@@ -185,14 +186,14 @@ const Leave = () => {
             <div className="space-y-2">
               <div className="flex items-baseline space-x-2">
                 <span className="text-3xl font-bold text-gray-900">
-                  {leaveBalance.casual - leaveBalance.used.casual}
+                  {leaveBalance.casual_c - leaveBalance.used_casual_c}
                 </span>
-                <span className="text-sm text-secondary">/ {leaveBalance.casual} days</span>
+                <span className="text-sm text-secondary">/ {leaveBalance.casual_c} days</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div
                   className="bg-info h-2 rounded-full"
-                  style={{ width: `${((leaveBalance.casual - leaveBalance.used.casual) / leaveBalance.casual) * 100}%` }}
+                  style={{ width: `${((leaveBalance.casual_c - leaveBalance.used_casual_c) / leaveBalance.casual_c) * 100}%` }}
                 />
               </div>
             </div>
@@ -316,22 +317,22 @@ const Leave = () => {
                 </tr>
               </thead>
               <tbody>
-                {leaveRequests.map((leave) => (
+{leaveRequests.map((leave) => (
                   <tr key={leave.Id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-150">
-                    <td className="py-4 px-4 text-sm text-gray-900">{leave.leaveType}</td>
+                    <td className="py-4 px-4 text-sm text-gray-900">{leave.leave_type_c}</td>
                     <td className="py-4 px-4 text-sm text-secondary">
-                      {format(new Date(leave.startDate), "MMM d, yyyy")}
+                      {format(new Date(leave.start_date_c), "MMM d, yyyy")}
                     </td>
                     <td className="py-4 px-4 text-sm text-secondary">
-                      {format(new Date(leave.endDate), "MMM d, yyyy")}
+                      {format(new Date(leave.end_date_c), "MMM d, yyyy")}
                     </td>
-                    <td className="py-4 px-4 text-sm text-gray-900">{leave.days}</td>
-                    <td className="py-4 px-4">{getStatusBadge(leave.status)}</td>
+                    <td className="py-4 px-4 text-sm text-gray-900">{leave.days_c}</td>
+                    <td className="py-4 px-4">{getStatusBadge(leave.status_c)}</td>
                     <td className="py-4 px-4 text-sm text-secondary">
-                      {format(new Date(leave.submittedDate), "MMM d, yyyy")}
+                      {format(new Date(leave.submitted_date_c), "MMM d, yyyy")}
                     </td>
                     <td className="py-4 px-4 text-right">
-                      {leave.status === "Pending" && (
+                      {leave.status_c === "Pending" && (
                         <Button
                           variant="ghost"
                           size="sm"

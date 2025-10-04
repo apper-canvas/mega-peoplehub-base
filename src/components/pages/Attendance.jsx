@@ -38,8 +38,8 @@ const Attendance = () => {
     loadData();
   }, [selectedDate]);
 
-  const getAttendanceForDate = (date) => {
-    return attendance.find(a => isSameDay(new Date(a.date), date));
+const getAttendanceForDate = (date) => {
+    return attendance.find(a => isSameDay(new Date(a.date_c), date));
   };
 
   const getStatusColor = (status) => {
@@ -178,9 +178,9 @@ const Attendance = () => {
                     }`}>
                       {format(day, "d")}
                     </span>
-                    {attendanceRecord && isCurrentMonth && (
-                      <div className={`flex-1 flex items-center justify-center rounded px-1 py-0.5 border ${getStatusColor(attendanceRecord.status)}`}>
-                        <span className="text-xs font-medium">{attendanceRecord.status}</span>
+{attendanceRecord && isCurrentMonth && (
+                      <div className={`flex-1 flex items-center justify-center rounded px-1 py-0.5 border ${getStatusColor(attendanceRecord.status_c)}`}>
+                        <span className="text-xs font-medium">{attendanceRecord.status_c}</span>
                       </div>
                     )}
                   </div>
@@ -227,26 +227,26 @@ const Attendance = () => {
                 </tr>
               </thead>
               <tbody>
-                {attendance.slice(0, 10).map((record) => (
+{attendance.slice(0, 10).map((record) => (
                   <tr key={record.Id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-150">
                     <td className="py-4 px-4 text-sm text-gray-900">
-                      {format(new Date(record.date), "EEE, MMM d, yyyy")}
+                      {format(new Date(record.date_c), "EEE, MMM d, yyyy")}
                     </td>
                     <td className="py-4 px-4 text-sm text-secondary">
-                      {record.checkIn || "-"}
+                      {record.check_in_c || "-"}
                     </td>
                     <td className="py-4 px-4 text-sm text-secondary">
-                      {record.checkOut || "-"}
+                      {record.check_out_c || "-"}
                     </td>
                     <td className="py-4 px-4 text-sm text-gray-900">
-                      {record.workHours}h
+                      {record.work_hours_c}h
                     </td>
                     <td className="py-4 px-4">
                       <Badge variant={
-                        record.status === "Present" ? "success" :
-                        record.status === "Late" ? "warning" : "error"
+                        record.status_c === "Present" ? "success" :
+                        record.status_c === "Late" ? "warning" : "error"
                       }>
-                        {record.status}
+                        {record.status_c}
                       </Badge>
                     </td>
                   </tr>

@@ -37,21 +37,20 @@ const Documents = () => {
 
   useEffect(() => {
     let filtered = documents;
-
-    if (selectedCategory !== "All") {
-      filtered = filtered.filter(doc => doc.category === selectedCategory);
+if (selectedCategory !== "All") {
+      filtered = filtered.filter(doc => doc.category_c === selectedCategory);
     }
 
     if (searchTerm) {
       filtered = filtered.filter(doc =>
-        doc.title.toLowerCase().includes(searchTerm.toLowerCase())
+        doc.title_c.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
     setFilteredDocuments(filtered);
   }, [searchTerm, selectedCategory, documents]);
 
-  const categories = ["All", ...new Set(documents.map(doc => doc.category))];
+const categories = ["All", ...new Set(documents.map(doc => doc.category_c))];
 
   const getIconForCategory = (category) => {
     const icons = {
@@ -118,7 +117,7 @@ const Documents = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredDocuments.map((doc, index) => (
             <motion.div
-              key={doc.Id}
+key={doc.Id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.05 }}
@@ -126,14 +125,14 @@ const Documents = () => {
               <Card className="p-6 h-full flex flex-col hover:shadow-lg transition-all duration-200">
                 <div className="flex items-start space-x-4 mb-4">
                   <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <ApperIcon name={getIconForCategory(doc.category)} className="w-6 h-6 text-primary" />
+                    <ApperIcon name={getIconForCategory(doc.category_c)} className="w-6 h-6 text-primary" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="text-lg font-semibold text-gray-900 mb-1 line-clamp-2">
-                      {doc.title}
+                      {doc.title_c}
                     </h3>
                     <span className="inline-block px-2 py-0.5 text-xs font-medium bg-gray-100 text-gray-700 rounded">
-                      {doc.category}
+                      {doc.category_c}
                     </span>
                   </div>
                 </div>
@@ -141,11 +140,11 @@ const Documents = () => {
                 <div className="flex-1 space-y-2 text-sm text-secondary mb-4">
                   <div className="flex items-center space-x-2">
                     <ApperIcon name="Calendar" className="w-4 h-4" />
-                    <span>Uploaded {new Date(doc.uploadDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+                    <span>Uploaded {new Date(doc.upload_date_c).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <ApperIcon name="FileText" className="w-4 h-4" />
-                    <span>{doc.size}</span>
+                    <span>{doc.size_c}</span>
                   </div>
                 </div>
 

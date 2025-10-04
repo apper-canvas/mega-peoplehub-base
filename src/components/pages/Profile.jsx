@@ -10,35 +10,35 @@ import Error from "@/components/ui/Error";
 import employeeService from "@/services/api/employeeService";
 
 const Profile = () => {
-  const [employee, setEmployee] = useState(null);
+const [employee, setEmployee] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("personal");
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    address: "",
-    emergencyContact: {
-      name: "",
-      relationship: "",
-      phone: ""
-    }
+    name_c: "",
+    email_c: "",
+    phone_c: "",
+    address_c: "",
+    emergency_contact_name_c: "",
+    emergency_contact_relationship_c: "",
+    emergency_contact_phone_c: ""
   });
 
-  const loadData = async () => {
+const loadData = async () => {
     try {
       setError("");
       setLoading(true);
       const data = await employeeService.getCurrentEmployee();
       setEmployee(data);
       setFormData({
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        address: data.address,
-        emergencyContact: data.emergencyContact
+        name_c: data.name_c,
+        email_c: data.email_c,
+        phone_c: data.phone_c,
+        address_c: data.address_c,
+        emergency_contact_name_c: data.emergency_contact_name_c,
+        emergency_contact_relationship_c: data.emergency_contact_relationship_c,
+        emergency_contact_phone_c: data.emergency_contact_phone_c
       });
     } catch (err) {
       setError(err.message);
@@ -116,20 +116,20 @@ const Profile = () => {
       >
         <Card className="p-6 mb-8">
           <div className="flex items-center space-x-6">
-            <div className="w-24 h-24 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white text-3xl font-bold">
-              {employee.name.split(" ").map(n => n[0]).join("")}
+<div className="w-24 h-24 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white text-3xl font-bold">
+              {employee.name_c.split(" ").map(n => n[0]).join("")}
             </div>
             <div className="flex-1">
-              <h2 className="text-2xl font-bold text-gray-900">{employee.name}</h2>
-              <p className="text-secondary mt-1">{employee.role}</p>
+              <h2 className="text-2xl font-bold text-gray-900">{employee.name_c}</h2>
+              <p className="text-secondary mt-1">{employee.role_c}</p>
               <div className="flex items-center space-x-4 mt-3">
                 <div className="flex items-center space-x-2 text-sm text-secondary">
                   <ApperIcon name="Briefcase" className="w-4 h-4" />
-                  <span>{employee.department}</span>
+                  <span>{employee.department_c}</span>
                 </div>
                 <div className="flex items-center space-x-2 text-sm text-secondary">
                   <ApperIcon name="Calendar" className="w-4 h-4" />
-                  <span>Joined {new Date(employee.joinDate).toLocaleDateString("en-US", { month: "short", year: "numeric" })}</span>
+                  <span>Joined {new Date(employee.join_date_c).toLocaleDateString("en-US", { month: "short", year: "numeric" })}</span>
                 </div>
               </div>
             </div>
@@ -168,15 +168,15 @@ const Profile = () => {
             <div className="space-y-6">
               <FormField
                 label="Full Name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+value={formData.name_c}
+                onChange={(e) => setFormData({ ...formData, name_c: e.target.value })}
                 disabled={!isEditing}
               />
               <FormField
                 label="Email Address"
                 type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                value={formData.email_c}
+                onChange={(e) => setFormData({ ...formData, email_c: e.target.value })}
                 disabled={!isEditing}
               />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -185,7 +185,7 @@ const Profile = () => {
                     Department
                   </label>
                   <div className="px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-md text-sm text-gray-900">
-                    {employee.department}
+{employee.department_c}
                   </div>
                 </div>
                 <div className="space-y-1">
@@ -193,7 +193,7 @@ const Profile = () => {
                     Role
                   </label>
                   <div className="px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-md text-sm text-gray-900">
-                    {employee.role}
+                    {employee.role_c}
                   </div>
                 </div>
               </div>
@@ -206,8 +206,8 @@ const Profile = () => {
               <FormField
                 label="Phone Number"
                 type="tel"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+value={formData.phone_c}
+                onChange={(e) => setFormData({ ...formData, phone_c: e.target.value })}
                 disabled={!isEditing}
               />
               <div className="space-y-1">
@@ -215,7 +215,7 @@ const Profile = () => {
                   Address
                 </label>
                 <textarea
-                  value={formData.address}
+                  value={formData.address_c}
                   onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                   disabled={!isEditing}
                   rows={3}
@@ -230,22 +230,22 @@ const Profile = () => {
             <div className="space-y-6">
               <FormField
                 label="Emergency Contact Name"
-                value={formData.emergencyContact.name}
+value={formData.emergency_contact_name_c}
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    emergencyContact: { ...formData.emergencyContact, name: e.target.value }
+                    emergency_contact_name_c: e.target.value
                   })
                 }
                 disabled={!isEditing}
               />
               <FormField
                 label="Relationship"
-                value={formData.emergencyContact.relationship}
+                value={formData.emergency_contact_relationship_c}
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    emergencyContact: { ...formData.emergencyContact, relationship: e.target.value }
+                    emergency_contact_relationship_c: e.target.value
                   })
                 }
                 disabled={!isEditing}
@@ -253,11 +253,11 @@ const Profile = () => {
               <FormField
                 label="Emergency Contact Phone"
                 type="tel"
-                value={formData.emergencyContact.phone}
+                value={formData.emergency_contact_phone_c}
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    emergencyContact: { ...formData.emergencyContact, phone: e.target.value }
+                    emergency_contact_phone_c: e.target.value
                   })
                 }
                 disabled={!isEditing}
