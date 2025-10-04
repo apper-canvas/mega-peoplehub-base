@@ -1,0 +1,13 @@
+[
+  {
+    "employeeId": "1",
+    "annual": 20,
+    "sick": 10,
+    "casual": 7,
+    "used": {
+      "annual": 15,
+      "sick": 2,
+      "casual": 1
+    }
+  }
+]
