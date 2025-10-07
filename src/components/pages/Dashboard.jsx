@@ -48,8 +48,8 @@ const Dashboard = () => {
   if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadData} />;
 
-  const totalLeave = leaveBalance ? leaveBalance.annual + leaveBalance.sick + leaveBalance.casual : 0;
-  const usedLeave = leaveBalance ? leaveBalance.used.annual + leaveBalance.used.sick + leaveBalance.used.casual : 0;
+const totalLeave = leaveBalance ? leaveBalance.annual_c + leaveBalance.sick_c + leaveBalance.casual_c : 0;
+  const usedLeave = leaveBalance ? leaveBalance.used_annual_c + leaveBalance.used_sick_c + leaveBalance.used_casual_c : 0;
   const remainingLeave = totalLeave - usedLeave;
   const pendingRequests = recentLeaves.filter(l => l.status === "Pending").length;
 
